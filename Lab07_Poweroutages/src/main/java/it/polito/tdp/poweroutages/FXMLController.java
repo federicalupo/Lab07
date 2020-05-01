@@ -16,67 +16,75 @@ import javafx.scene.control.TextField;
 
 public class FXMLController {
 
-private Model model;
+	private Model model;
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private ComboBox<Nerc> boxScelta; //di Nerc
+	@FXML
+	private ComboBox<Nerc> boxScelta; // di Nerc
 
-    @FXML
-    private TextField txtAnni;
+	@FXML
+	private TextField txtAnni;
 
-    @FXML
-    private TextField txtOre;
+	@FXML
+	private TextField txtOre;
 
-    @FXML
-    private Button btnWca;
+	@FXML
+	private Button btnWca;
 
-    @FXML
-    private TextArea txtRisultato;
+	@FXML
+	private TextArea txtRisultato;
 
-    @FXML
-    void calcola(ActionEvent event) {
-    this.txtRisultato.clear();
-    
-     Nerc nerc	= this.boxScelta.getValue();
-     Integer ore = Integer.parseInt(this.txtOre.getText());
-     Integer anni = Integer.parseInt(this.txtAnni.getText());
-     
-     //controlli
-     
-     List<PowerOutage> lista = this.model.cerca(anni, ore, nerc);
-     
-     for(PowerOutage l : lista)
-     	{ 
-    	 this.txtRisultato.appendText(l.toString());
-     	}
-     
+	@FXML
+	void calcola(ActionEvent event) {
+		this.txtRisultato.clear();
 
-    }
+		Nerc nerc = this.boxScelta.getValue();
+		Integer ore;
+		Integer anni;
+		
+		try {
+			 ore = Integer.parseInt(this.txtOre.getText());
+			 anni = Integer.parseInt(this.txtAnni.getText());
+		
+			
+		} catch (NumberFormatException nfe) {
+			this.txtRisultato.appendText("Inserire numeri");
+			return;  //!!!!!!!!!!
+		}
 
-    @FXML
-    void initialize() {
-        assert boxScelta != null : "fx:id=\"boxScelta\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert txtAnni != null : "fx:id=\"txtAnni\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert txtOre != null : "fx:id=\"txtOre\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert btnWca != null : "fx:id=\"btnWca\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert txtRisultato != null : "fx:id=\"txtRisultato\" was not injected: check your FXML file 'Scene.fxml'.";
+		
+		List<PowerOutage> lista = this.model.cerca(anni, ore, nerc);
+		
+		this.txtRisultato.appendText(String.format("Tot persone colpite: %d \n",model.getMaxPersone()));
+		this.txtRisultato.appendText(String.format("Tot ore di blackout: %d \n", model.getBestTotOre()));
 
-    }
-    
-    public void setModel(Model model) {
-    	this.model= model; 
-    	this.boxScelta.getItems().addAll(model.getNercList());
-    	this.boxScelta.setValue(model.getNercList().get(0)); //userà il toString, stampando il valore
-    	
-    	
+		for (PowerOutage l : lista) {
+			this.txtRisultato.appendText(l.toString());
+		}
+		
+		
+
+	}
+
+	@FXML
+	void initialize() {
+		assert boxScelta != null : "fx:id=\"boxScelta\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtAnni != null : "fx:id=\"txtAnni\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtOre != null : "fx:id=\"txtOre\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert btnWca != null : "fx:id=\"btnWca\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtRisultato != null : "fx:id=\"txtRisultato\" was not injected: check your FXML file 'Scene.fxml'.";
+
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+		this.boxScelta.getItems().addAll(model.getNercList());
+		this.boxScelta.setValue(model.getNercList().get(0)); // userà il toString, stampando il valore
+
+	}
 }
-}
-
-
-

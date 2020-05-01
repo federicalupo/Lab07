@@ -1,7 +1,6 @@
 package it.polito.tdp.poweroutages.model;
 
-import java.time.Duration;
-import java.time.Period;
+
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 
@@ -21,7 +20,10 @@ public class Model {
 	private Integer totPersone;
 	private double totOre;
 	private double differenzaAnni;
-	private Integer cont;
+	
+	
+	
+	private Integer bestTotOre;
 
 	public Model() {
 		podao = new PowerOutageDAO();
@@ -47,10 +49,13 @@ public class Model {
 		
 		this.maxPersone = 0;
 		this.totOre = 0;
-		this.cont=0;
+		
 
 		this.totPersone = 0;
 
+		this.bestTotOre=0;
+	
+		
 		List<PowerOutage> parziale = new LinkedList<>();
 
 		ricorsiva(anni, ore, 0, parziale);
@@ -65,11 +70,16 @@ public class Model {
 		
 		
 		
-		//if (livello == this.listaPO.size()) {  PERCHè NON ARRIVA FINO ALLA FINE???
+		//if (livello == this.listaPO.size()) {  cosa posso mettere come sostituto???
 		if (this.totOre<ore) {
 			
 			if (this.totPersone > this.maxPersone) {
+				
 				this.maxPersone = this.totPersone;
+				this.bestTotOre= (int) this.totOre;
+				
+				
+				
 				//!! NOOOO == > this.best = parziale;  ==> copio riferimento!!!!!
 				
 				Collections.sort(parziale, new ComparatorePerData());
@@ -89,12 +99,15 @@ public class Model {
 			
 			if (!parziale.contains(p)) { //se c'è già non aggiungooo!!!
 
-
-				if (livello == 0) {
-					this.totPersone = 0;
-					this.totOre = 0;
-					
-				}
+ 
+				/*
+				 * NON SERVE => LO FA GIà IL BACKTRACKING
+				 * 
+				 * if (livello == 0) {
+				 *  this.totPersone = 0;
+				 *	this.totOre = 0;
+				 *	
+				 *    	}*/
 				
 				
 				if ((this.totOre + p.getOre()) <= ore) { // aggiungi
@@ -105,9 +118,9 @@ public class Model {
 						PowerOutage primo = parziale.get(0);
 
 						this.differenzaAnni = Math.abs(ChronoUnit.YEARS.between(primo.getDate_event_began(), p.getDate_event_began()));
+						//=> mi da le unità
 						
 						
-						System.out.println("anni: "+ this.differenzaAnni);
 						if (this.differenzaAnni <= anni) {
 
 							this.totOre += p.getOre();
@@ -119,7 +132,8 @@ public class Model {
 
 							this.totOre -= p.getOre();
 							this.totPersone -= p.getCustomers_affected();
-							parziale.remove(p); // POSSO?????
+							parziale.remove(p); 
+							
 							// non posso fare parziale.size()-1 perchè l'ultimo inserito non è detto sia
 							// l'ultimo della lista(ordinata)
 						}
@@ -149,5 +163,19 @@ public class Model {
 		
 
 	}
+
+	 
+
+	public Integer getMaxPersone() {
+		return maxPersone;
+	}
+
+	public Integer getBestTotOre() {
+		return bestTotOre;
+	}
+
+	
+	
+	
 
 }
