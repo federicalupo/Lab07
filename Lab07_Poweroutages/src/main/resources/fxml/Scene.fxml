@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.poweroutages.FXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.poweroutages.FXMLController">
    <top>
       <Label text="Lab07 - TdP Insurance Unit" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -17,4 +25,75 @@
          </font>
       </Label>
    </top>
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox nodeOrientation="LEFT_TO_RIGHT">
+               <children>
+                  <ImageView fitHeight="220.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="10.0" top="15.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="file:/Users/federicalupo/Documents/POLITECNICO_TORINO/Terzo_anno_2018_2019/Secondo_semestre_2018_2019/Tecniche_di_programmazione/workplace/Lab07/NERC-map.png" />
+                     </image>
+                  </ImageView>
+                  <VBox nodeOrientation="LEFT_TO_RIGHT" spacing="40.0">
+                     <children>
+                        <HBox spacing="20.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Label contentDisplay="RIGHT" text="Select NERC">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ComboBox fx:id="boxScelta" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="35.0">
+                           <children>
+                              <Label contentDisplay="RIGHT" text="Max years">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin></Label>
+                              <TextField fx:id="txtAnni" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="35.0">
+                           <children>
+                              <Label contentDisplay="RIGHT" text="Max hours">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin></Label>
+                              <TextField fx:id="txtOre" prefWidth="120.0" />
+                           </children>
+                        </HBox>
+                        <Pane nodeOrientation="RIGHT_TO_LEFT">
+                           <children>
+                              <Button fx:id="btnWca" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#calcola" text="Worst case analysis" />
+                           </children>
+                        </Pane>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="15.0" top="15.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <TextArea fx:id="txtRisultato" prefHeight="150.0">
+               <VBox.margin>
+                  <Insets bottom="25.0" left="15.0" right="25.0" top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Courier" size="13.0" />
+               </font></TextArea>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
